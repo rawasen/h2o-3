@@ -289,6 +289,7 @@ h2o.import_sql_select<- function(connection_url, select_query, username, passwor
 #'        this may fail on out-of-memory for tables with a large number of small partitions.
 #' @export
 h2o.import_hive_table <- function(database, table, partitions = NULL, allow_multi_format = FALSE) {
+  print("prepare params")
   parms <- list()
   parms$database <- database
   parms$table <- table
@@ -301,10 +302,17 @@ h2o.import_hive_table <- function(database, table, partitions = NULL, allow_mult
 
   }
   parms$allow_multi_format <- allow_multi_format
+  print("parms")
+  print(parms)
   res <- .h2o.__remoteSend('ImportHiveTable', method = "POST", .params = parms, h2oRestApiVersion = 3)
+  print("received response")
+  print(res)
   job_key <- res$key$name
+  print(job_key)
   dest_key <- res$dest$name
   .h2o.__waitOnJob(job_key)
+  print("job done, returning frame")
+  print(dest_key)
   h2o.getFrame(dest_key)
 }
 

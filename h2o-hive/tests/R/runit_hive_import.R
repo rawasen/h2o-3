@@ -2,8 +2,10 @@ setwd(normalizePath(dirname(R.utils::commandArgs(asValues=TRUE)$"f")))
 source("../../../h2o-r/scripts/h2o-r-test-setup.R")
 
 test.import.hive <- function() {
-
+    print("in test")
     test_table_normal <- h2o.import_hive_table("default", "test_table_normal")
+    print("got frame")
+    print(test_table_normal)
     expect_equal(nrow(test_table_normal),3)
     expect_equal(ncol(test_table_normal),5)
     
